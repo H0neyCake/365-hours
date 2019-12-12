@@ -1,0 +1,4 @@
+#Thu Dec 12 03:35:01 EET 2019
+base.0=/Users/dimex4/Desktop/flutter-dev/hours365/build/app/intermediates/transforms/dexMerger/debug/0
+path.0=classes.dex
+renamed.0=classes.dex
