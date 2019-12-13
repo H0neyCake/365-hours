@@ -7,7 +7,7 @@ class Bike extends StatelessWidget{
       appBar: AppBar(
         title: Text('Bike'),
       ),
-      body: Text('Biiike!'),
+      body: Text('Holla! Biiike!'),
     );
   }
 }

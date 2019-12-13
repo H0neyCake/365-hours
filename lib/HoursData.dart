@@ -15,3 +15,5 @@ List<HoursData> data = [
     HoursData(name: 'Run', catergory: 'Sport', iconData: Icons.directions_run, rt: '/run'),
     HoursData(name: 'Bike', catergory: 'Sport', iconData: Icons.directions_bike, rt: '/bike'),
   ];
+
+  
