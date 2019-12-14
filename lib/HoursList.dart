@@ -22,10 +22,13 @@ class _HoursListState extends State<HoursList> {
     return Scaffold(
       appBar: AppBar(
         title: Text('365 Hours'),
+        backgroundColor: Colors.white,
       ),
       body: _selectedIndex == 0
           ? Container(child: ListView(children: _buildList(context)))
-          : (_selectedIndex == 1 ? Text('Fav') : Text('Settings')),
+          : (_selectedIndex == 1 
+          ? Container(child: ListView(children: _pushFavorites(context))) 
+          : Text('Settings')),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.list), title: Text('List')),
@@ -37,26 +40,61 @@ class _HoursListState extends State<HoursList> {
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.black,
         onTap: _onItemTapped,
-        backgroundColor: Colors.yellow,
+        backgroundColor: Colors.white,
       ),
     );
   }
 
   List<Widget> _buildList(BuildContext context) {
-    return data.map((HoursData f) => ListTile(
+    return data
+        .map((HoursData f) => ListTile(
               title: Text(f.name),
               subtitle: Text('Category: ${f.catergory}'),
               leading: Icon(f.iconData),
               trailing: GestureDetector(
                 onTap: () {
-                 print('Tapped');
+                  setState(() {
+                    if (f.favorite) {
+                      favoriteData.remove(f);
+                      f.favorite = false;
+
+                      // Результат favoriteData
+                      print('-----------');
+                      favoriteData.forEach((element) => print(element.name));
+                      favoriteData
+                          .forEach((element) => print(element.catergory));
+                      print('-----------');
+                    } else {
+                      favoriteData.add(f);
+                      f.favorite = true;
+
+                      // Результат favoriteData
+                      print('-----------');
+                      favoriteData.forEach((element) => print(element.name));
+                      favoriteData
+                          .forEach((element) => print(element.catergory));
+                      print('-----------');
+                    }
+                  });
                 },
                 child: Container(
                   child: Icon(
-                    Icons.favorite_border,
-                    ),
+                    (f.favorite) ? Icons.favorite : Icons.favorite_border,
+                    color: (f.favorite) ? Colors.red : Colors.grey,
+                  ),
                 ),
               ),
+              onTap: () => Navigator.of(context).pushNamed(f.rt),
+            ))
+        .toList();
+  }
+
+  List<Widget> _pushFavorites(BuildContext context) {
+    return favoriteData
+        .map((HoursData f) => ListTile(
+              title: Text(f.name),
+              subtitle: Text('Category: ${f.catergory}'),
+              leading: Icon(f.iconData),
               onTap: () => Navigator.of(context).pushNamed(f.rt),
             ))
         .toList();

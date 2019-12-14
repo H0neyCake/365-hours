@@ -7,7 +7,7 @@ class Run extends StatelessWidget{
       appBar: AppBar(
         title: Text('Run'),
       ),
-      body: Text('RUUUUN'),
+      body: Text('dsdsdadas'),
     );
   }
 }
