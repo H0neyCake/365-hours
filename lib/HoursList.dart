@@ -26,16 +26,21 @@ class _HoursListState extends State<HoursList> {
       ),
       body: _selectedIndex == 0
           ? Container(child: ListView(children: _buildList(context)))
-          : (_selectedIndex == 1 
-          ? Container(child: ListView(children: _pushFavorites(context))) 
-          : Text('Settings')),
+          : (_selectedIndex == 1
+              ? (favoriteData.isNotEmpty
+                  ? Container(
+                      child: ListView(children: _pushFavorites(context)))
+                  : Center(
+                      child: Text('Favorits is empty!\nSorry :(',
+                      textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 18.0, color: Colors.grey)),
+                    ))
+              : Text('Settings')),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.list), title: Text('List')),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.favorite), title: Text('Favorite')),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.settings), title: Text('Settings')),
+          BottomNavigationBarItem(icon: Icon(Icons.favorite), title: Text('Favorite')),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), title: Text('Settings')),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.black,
@@ -57,23 +62,9 @@ class _HoursListState extends State<HoursList> {
                     if (f.favorite) {
                       favoriteData.remove(f);
                       f.favorite = false;
-
-                      // Результат favoriteData
-                      print('-----------');
-                      favoriteData.forEach((element) => print(element.name));
-                      favoriteData
-                          .forEach((element) => print(element.catergory));
-                      print('-----------');
                     } else {
                       favoriteData.add(f);
                       f.favorite = true;
-
-                      // Результат favoriteData
-                      print('-----------');
-                      favoriteData.forEach((element) => print(element.name));
-                      favoriteData
-                          .forEach((element) => print(element.catergory));
-                      print('-----------');
                     }
                   });
                 },
@@ -96,6 +87,20 @@ class _HoursListState extends State<HoursList> {
               subtitle: Text('Category: ${f.catergory}'),
               leading: Icon(f.iconData),
               onTap: () => Navigator.of(context).pushNamed(f.rt),
+              trailing: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    favoriteData.remove(f);
+                    f.favorite = false;
+                  });
+                },
+                child: Container(
+                  child: Icon(
+                    Icons.close,
+                    color: Colors.red,
+                  ),
+                ),
+              ),
             ))
         .toList();
   }
